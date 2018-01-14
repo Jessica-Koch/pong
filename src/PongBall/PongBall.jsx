@@ -7,17 +7,20 @@ class PongBall extends Component {
     x: number.isRequired,
     y: number.isRequired,
   }
-  style = {
-    width: '1em',
-    height: '1em',
-    top: `${this.props.y}em`,
-    left: `${this.props.x}em`,
-    position: 'absolute',
-    backgroundColor: 'white',
-  };
+
 
   render() {
-    return <div style={this.style} className="PongBall" />;
+    return (<div
+      style={{
+        width: '2em',
+        height: '2em',
+      top: `${this.props.y}px`,
+      left: `${this.props.x}px`,
+        position: 'absolute',
+        backgroundColor: 'white',
+      }}
+      className="PongBall"
+    />);
   }
 }
 export default PongBall;
