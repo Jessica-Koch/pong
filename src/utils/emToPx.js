@@ -1,3 +1,3 @@
 import { getElementFontSize } from './getElementFontSize';
 
-export const convertToEm = (val, context) => val * getElementFontSize(context);
+export const emToPx = (val, context) => val * getElementFontSize(context);

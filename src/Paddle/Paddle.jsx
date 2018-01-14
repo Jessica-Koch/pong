@@ -7,19 +7,18 @@ class Paddle extends Component {
   static propTypes = {
     x: oneOfType([string, number]).isRequired,
     y: oneOfType([string, number]).isRequired,
-    r: oneOfType([string, number]).isRequired,
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      y: 10,
+      y: props.y,
     };
   }
 
-  movePaddle = (event) => {
-    this.props.y = event.clientY;
-  }
+  // movePaddle = (event) => {
+  //   this.props.y = event.clientY;
+  // }
 
   move = (e) => {
     // if up arrow hit & top of paddle is below top header
@@ -49,13 +48,14 @@ class Paddle extends Component {
         onMouseMove={this.movePaddle}
         className="Paddle"
         style={{
-          width: '1em',
-          height: '8em',
+          width: '15px',
+          height: '150px',
           position: 'absolute',
           backgroundColor: '#ffffff',
-        top: `${this.state.y}em`,
-        left: `${this.props.x}em`,
-        right: `${this.props.r}em`,
+          opacity: '0.7',
+        top: `${this.state.y}px`,
+        left: `${this.props.x}px`,
+
         }}
       />
     );

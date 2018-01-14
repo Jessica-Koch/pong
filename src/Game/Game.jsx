@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { add, multiply } from 'ramda';
+import { add, multiply, subtract } from 'ramda';
 import Paddle from '../Paddle';
 import PongBall from '../PongBall';
 import { Loop } from '../utils/Loop';
 import './Game.css';
-// import { emToPx } from '../utils/emToPx';
 // import { getSizeOfEms } from '../utils/getSizeOfEms';
-
-const windowWidth = window.innerWidth;
 
 class Game extends Component {
   constructor(props) {
@@ -16,7 +13,7 @@ class Game extends Component {
     this.state = {
       ballX: 400,
       ballY: 50,
-      vx: 5,
+      vx: 50,
 
       p1Y: 1 + 80,
       p2Y: 3 + 80,
@@ -26,21 +23,28 @@ class Game extends Component {
 
   componentDidMount() {
     Loop((tick) => {
-      console.log(tick);
       this.setState({
         ballX: multiply(add(this.state.ballX, 5), tick),
       });
+
+      // if the ball is at the right side of the screen
+      if (this.state.ballX > (this.boardBoundsRight - 10)) {
+
+      }
       this.forceUpdate();
     });
   }
+  // boardBoundsBottom = document.querySelector('.Game').getBoundingClientRect().left;
 
+  // boardBoundsTop = document.querySelector('.Game').getBoundingClientRect().top;
+  boardBoundsRight = window.innerWidth;
   render() {
     const { ballX, ballY } = this.state;
     return (
       <div className="Game">
-        <Paddle x={0.25} y={this.state.p1Y} r="auto" position="left" />
+        <Paddle x={5} y={this.state.p1Y} position="left" />
         <PongBall x={ballX} y={ballY} />
-        <Paddle x="auto" y={this.state.p2Y} r={windowWidth + 0.5} position="right" />
+        <Paddle x={subtract(this.boardBoundsRight, 20)} y={this.state.p2Y} position="right" />
       </div>
     );
   }
