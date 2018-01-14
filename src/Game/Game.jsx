@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { add, inc, multiply, negate, subtract } from 'ramda';
+import { add, inc, multiply, negate, pipe, subtract, tap } from 'ramda';
+import { number } from 'prop-types';
 import Paddle from '../Paddle';
 import PongBall from '../PongBall';
 import Score from '../Score';
 import { Loop } from '../utils/Loop';
 import './Game.css';
+
+const gameStartHeight = (window.innerHeight / 2) - 150;
 
 class Game extends Component {
   constructor(props) {
@@ -20,8 +23,8 @@ class Game extends Component {
       leftScore: 0,
       rightScore: 0,
 
-      p1Y: 1 + 80,
-      p2Y: 3 + 80,
+      leftPaddleTop: gameStartHeight,
+      rightPaddleY: gameStartHeight,
     };
   }
 
@@ -52,17 +55,31 @@ class Game extends Component {
     });
   }
 
+
+    onKeyDown = (event) => {
+      // if up arrow hit & top of paddle is below top header
+      if (event.keyCode === 38 && event.target.getBoundingClientRect().top > 150) {
+        this.setState(prevState => ({ leftPaddleTop: `${prevState.leftPaddleTop - 10}` }));
+      } else if (event.keyCode === 40 && (event.target.getBoundingClientRect().top + 150) < 1200) {
+        this.setState(prevState => ({ leftPaddleTop: `${add(prevState.leftPaddleTop, 10)}` }));
+      }
+    }
+
   boardBoundsRight = window.innerWidth;
+  gameStartHeight = 600;
+
   render() {
-    const { ballX, ballY } = this.state;
+    const {
+      ballX, ballY, leftPaddleTop,
+    } = this.state;
     return (
       <div className="Game">
         <Score position="left" player="1" total={this.state.leftScore} />
         <Score position="right" player="2" total={this.state.rightScore} />
 
-        <Paddle x={5} y={this.state.p1Y} position="left" />
+        <Paddle x={5} y={leftPaddleTop} onKeyDown={event => this.onKeyDown(event)} position="left" />
         <PongBall x={ballX} y={ballY} />
-        <Paddle x={subtract(this.boardBoundsRight, 20)} y={this.state.p2Y} position="right" />
+        <Paddle x={subtract(this.boardBoundsRight, 20)} y={this.state.rightPaddleY} position="right" />
       </div>
     );
   }
