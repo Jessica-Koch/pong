@@ -29,7 +29,7 @@ class Paddle extends Component {
     // if down arrow hit & bottom of paddle is above bottom of page + 5
     if (e.keyCode === 40 && e.target.getBoundingClientRect().bottom > (window.innerHeight + 5)) {
       console.log('keycode 40 pressed');
-      console.log('target info: ', e.target);
+      // console.log('target info: ', e.target);
     }
 
     if (e.keyCode === 38 || e.keyCode === 40) {

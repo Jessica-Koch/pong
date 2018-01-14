@@ -14,7 +14,7 @@ class Game extends Component {
       ballX: 400,
       ballY: 50,
       vx: 5,
-
+      vy: 5,
       p1Y: 1 + 80,
       p2Y: 3 + 80,
     };
@@ -25,20 +25,28 @@ class Game extends Component {
     Loop((tick) => {
       this.setState({
         ballX: multiply(add(this.state.ballX, this.state.vx), tick),
+        ballY: multiply(add(this.state.ballY, this.state.vy), tick),
       });
 
       // if the ball is at the right side of the screen
-      if (this.state.ballX > (subtract(this.boardBoundsRight, 15))) {
+      if (this.state.ballX > (add(this.boardBoundsRight, 50))) {
         this.setState({ vx: negate(this.state.vx) }); // reverse direction of ball
-      } else if (this.state.ballX < 0) {
+      } else if (this.state.ballX < -70) {
         this.setState({ vx: negate(this.state.vx) }); // reverse direction of ball
+      }
+
+      // if the ball is at the bottom of the board
+      if (this.state.ballY > window.innerHeight - 100) {
+        this.setState({ vy: negate(this.state.vy) });
+      } else if (this.state.ballY < 0) {
+        this.setState({ vy: negate(this.state.vy) });
       }
       this.forceUpdate();
     });
   }
   // boardBoundsBottom = document.querySelector('.Game').getBoundingClientRect().left;
 
-  // boardBoundsTop = document.querySelector('.Game').getBoundingClientRect().top;
+  // boardBoundsTop =
   boardBoundsRight = window.innerWidth;
   render() {
     const { ballX, ballY } = this.state;
