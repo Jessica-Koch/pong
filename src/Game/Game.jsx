@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { add, multiply, subtract } from 'ramda';
+import { add, multiply, negate, subtract } from 'ramda';
 import Paddle from '../Paddle';
 import PongBall from '../PongBall';
 import { Loop } from '../utils/Loop';
@@ -13,7 +13,7 @@ class Game extends Component {
     this.state = {
       ballX: 400,
       ballY: 50,
-      vx: 50,
+      vx: 5,
 
       p1Y: 1 + 80,
       p2Y: 3 + 80,
@@ -24,12 +24,14 @@ class Game extends Component {
   componentDidMount() {
     Loop((tick) => {
       this.setState({
-        ballX: multiply(add(this.state.ballX, 5), tick),
+        ballX: multiply(add(this.state.ballX, this.state.vx), tick),
       });
 
       // if the ball is at the right side of the screen
-      if (this.state.ballX > (this.boardBoundsRight - 10)) {
-
+      if (this.state.ballX > (subtract(this.boardBoundsRight, 15))) {
+        this.setState({ vx: negate(this.state.vx) }); // reverse direction of ball
+      } else if (this.state.ballX < 0) {
+        this.setState({ vx: negate(this.state.vx) }); // reverse direction of ball
       }
       this.forceUpdate();
     });

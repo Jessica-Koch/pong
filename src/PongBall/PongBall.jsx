@@ -12,8 +12,8 @@ class PongBall extends Component {
   render() {
     return (<div
       style={{
-        width: '2em',
-        height: '2em',
+        width: '30px',
+        height: '30px',
       top: `${this.props.y}px`,
       left: `${this.props.x}px`,
         position: 'absolute',
