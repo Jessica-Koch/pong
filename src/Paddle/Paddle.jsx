@@ -16,10 +16,6 @@ class Paddle extends Component {
     };
   }
 
-  // movePaddle = (event) => {
-  //   this.props.y = event.clientY;
-  // }
-
   move = (e) => {
     // if up arrow hit & top of paddle is below top header
     if (e.keyCode === 38 && e.target.getBoundingClientRect().top < 80) {
@@ -43,9 +39,9 @@ class Paddle extends Component {
   render() {
     return (
       <div
+        role="button"
         tabIndex={0}
         onKeyDown={this.move}
-        onMouseMove={this.movePaddle}
         className="Paddle"
         style={{
           width: '15px',
