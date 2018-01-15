@@ -4,3 +4,12 @@
 	/* height: 100vh; */
 	/* overflow: hidden; */
 }
+
+.gameOver {
+	width: 100%;
+	color: #ffffff;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}

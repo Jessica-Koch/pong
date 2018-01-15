@@ -70,12 +70,20 @@ class Game extends Component {
 
   render() {
     const {
-      ballX, ballY, leftPaddleTop,
+      ballX, ballY, leftPaddleTop, leftScore, rightScore,
     } = this.state;
     return (
       <div className="Game">
-        <Score position="left" player="1" total={this.state.leftScore} />
-        <Score position="right" player="2" total={this.state.rightScore} />
+        <Score position="left" player="1" total={leftScore} />
+        {(leftScore === 11 || rightScore === 11) ?
+          (
+            <div className="gameOver">
+              <h1 style={{ display: 'flex' }}>Game over </h1>
+              <h3>Refresh page to play again</h3>
+            </div>
+          )
+        : <h1 className="gameOver" style={{ display: 'none' }}>Game over</h1> }
+        <Score position="right" player="2" total={rightScore} />
 
         <Paddle x={5} y={leftPaddleTop} onKeyDown={event => this.onKeyDown(event)} position="left" />
         <PongBall x={ballX} y={ballY} />
