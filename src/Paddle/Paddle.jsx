@@ -16,7 +16,8 @@ class Paddle extends Component {
 
   render() {
     return (
-      <div
+      <input
+        type="button"
         role="button"
         tabIndex={0}
         onKeyDown={this.props.onKeyDown}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { add, inc, multiply, negate, pipe, subtract, tap } from 'ramda';
+import { add, inc, multiply, negate, subtract } from 'ramda';
 import { number } from 'prop-types';
 import Paddle from '../Paddle';
 import PongBall from '../PongBall';
@@ -8,15 +8,15 @@ import { Loop } from '../utils/Loop';
 import './Game.css';
 
 const gameStartHeight = (window.innerHeight / 2) - 150;
-
+const gameWidth = window.innerWidth;
 class Game extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      ballX: Math.floor(Math.random() * 29),
       ballY: Math.floor(Math.random() * 13),
+      ballX: Math.floor(window.innerWidth / 2),
 
+      // randomly choose the direction
       vx: 5 * (Math.random() < 0.5 ? 1 : -1), // accelleration
       vy: 5 * (Math.random() < 0.5 ? 1 : -1), // accelleration
 
@@ -36,16 +36,38 @@ class Game extends Component {
         ballY: multiply(add(this.state.ballY, this.state.vy), tick),
       });
 
-      // if the ball is at the right side of the screen
+      this.computerPlayer();
+      // // if the ball is at the right side of the screen
       if (this.state.ballX > (add(this.boardBoundsRight, 50))) {
-        this.setState({ vx: negate(this.state.vx) }); // reverse direction of ball
-        this.setState({ leftScore: inc(this.state.leftScore) });
-      } else if (this.state.ballX < -70) {
-        this.setState({ rightScore: inc(this.state.rightScore) });
-        this.setState({ vx: negate(this.state.vx) }); // reverse direction of ball
+        this.setState({
+          vx: negate(this.state.vx),
+          leftScore: inc(this.state.leftScore),
+        }); // reverse direction of ball
       }
 
-      // if the ball is at the bottom of the board
+      if (this.state.ballX > (subtract(this.boardBoundsRight, 50)) && this.state.ballY > this.state.rightPaddleY && this.state.ballY < this.state.rightPaddleY + 150) {
+        return this.setState({
+          vy: negate(this.state.vy),
+          vx: negate(this.state.vx),
+        });
+      }
+
+      // if ball is on the left side
+      if (this.state.vx < 0 && this.state.ballX < -50) {
+        this.setState({
+          rightScore: inc(this.state.rightScore),
+          vx: negate(this.state.vx),
+        }); // reverse direction of ball
+      } else
+      // Hit left paddle!!
+      if (this.state.vx < 0 && this.state.ballX === 20 && this.state.ballY > this.state.leftPaddleTop && this.state.ballY < this.state.leftPaddleTop + 150) {
+        return this.setState({
+          vy: negate(this.state.vy),
+          vx: negate(this.state.vx),
+        });
+      }
+
+      // if the ball is at the bottom or top of the board
       if (this.state.ballY > window.innerHeight - 100) {
         this.setState({ vy: negate(this.state.vy) });
       } else if (this.state.ballY < 0) {
@@ -60,11 +82,20 @@ class Game extends Component {
       // if up arrow hit & top of paddle is below top header
       if (event.keyCode === 38 && event.target.getBoundingClientRect().top > 150) {
         this.setState(prevState => ({ leftPaddleTop: `${prevState.leftPaddleTop - 10}` }));
-      } else if (event.keyCode === 40 && (event.target.getBoundingClientRect().top + 150) < 1200) {
+      } else if (event.keyCode === 40 && (event.target.getBoundingClientRect().top + 150) < window.innerHeight) {
         this.setState(prevState => ({ leftPaddleTop: `${add(prevState.leftPaddleTop, 10)}` }));
       }
     }
 
+    computerPlayer = () => {
+      // if paddle moving toward us & up
+      if (this.state.vx > 0 && this.state.ballY < (window.innerHeight / 2) && this.state.rightPaddleY > 0) {
+        this.setState(prevState => ({ rightPaddleY: `${subtract(prevState.rightPaddleY, 10)}` }));
+      }
+      if (this.state.vx > 0 && this.state.ballY > (subtract(window.innerHeight, 150) / 2) && add(this.state.rightPaddleY, 150) < subtract(window.innerHeight, 150)) {
+        this.setState(prevState => ({ rightPaddleY: `${add(prevState.rightPaddleY, 10)}` }));
+      }
+    }
   boardBoundsRight = window.innerWidth;
   gameStartHeight = 600;
 
@@ -84,8 +115,10 @@ class Game extends Component {
           )
         : <h1 className="gameOver" style={{ display: 'none' }}>Game over</h1> }
         <Score position="right" player="2" total={rightScore} />
-
         <Paddle x={5} y={leftPaddleTop} onKeyDown={event => this.onKeyDown(event)} position="left" />
+
+        <div className="midpt" />
+
         <PongBall x={ballX} y={ballY} />
         <Paddle x={subtract(this.boardBoundsRight, 20)} y={this.state.rightPaddleY} position="right" />
       </div>
