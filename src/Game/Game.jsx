@@ -45,7 +45,7 @@ class Game extends Component {
         }); // reverse direction of ball
       }
 
-      if (this.state.ballX > (subtract(this.boardBoundsRight, 50)) && this.state.ballY > this.state.rightPaddleY && this.state.ballY < this.state.rightPaddleY + 150) {
+      if (this.state.ballX > (subtract(this.boardBoundsRight, 50)) && this.state.ballY > this.state.rightPaddleY && this.state.ballY < add(this.state.rightPaddleY, 150)) {
         return this.setState({
           vy: negate(this.state.vy),
           vx: negate(this.state.vx),
