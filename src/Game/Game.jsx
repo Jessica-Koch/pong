@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, Input, Label, Form, FormGroup } from 'reactstrap';
-import { add, inc, divide, multiply, negate, subtract } from 'ramda';
+import { add, inc, multiply, negate, subtract } from 'ramda';
 import Paddle from '../Paddle';
 import PongBall from '../PongBall';
 import Score from '../Score';
@@ -79,7 +79,6 @@ class Game extends Component {
         this.state.ballY > this.state.rightPaddleY &&
         this.state.ballY < add(this.state.rightPaddleY, 150)) {
           return this.setState({
-            vy: negate(this.state.vy),
             vx: negate(this.state.vx),
           });
         }
@@ -94,7 +93,6 @@ class Game extends Component {
         // Hit left paddle!!
         if (this.state.vx < 0 && this.state.ballX === 20 && this.state.ballY > this.state.leftPaddleTop && this.state.ballY < this.state.leftPaddleTop + 150) {
           return this.setState({
-            vy: negate(this.state.vy),
             vx: negate(this.state.vx),
           });
         }
