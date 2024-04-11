@@ -1,0 +1,25 @@
+#root {
+     background-image: linear-gradient(-225deg, #ff0844 0%, #ffb199 100%);
+   background-repeat: no-repeat;
+   color: #fff;
+}
+
+.App {
+  display: grid;
+  grid-template-rows: 100px 1fr;
+  height: 100%;
+  
+  .Header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+  }
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
