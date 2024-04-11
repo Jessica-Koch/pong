@@ -1,8 +1,11 @@
 import React from 'react';
 import { Header } from './Components/Header/Header';
 import { PongGame } from './Components/PongGame/PongGame';
+import { Instructions } from './Components/Instructions/Instructions';
+import './App.css';
 
 const App = () => {
+  const [showInstructions, setShowInstructions] = React.useState(true);
   const startGame = () => {
     throw new Error('Function not implemented.');
   };
@@ -10,6 +13,8 @@ const App = () => {
   const restartGame = () => {
     throw new Error('Function not implemented.');
   };
+
+  const closeInstructions = () => setShowInstructions(false);
 
   return (
     <div className='App'>
@@ -22,7 +27,14 @@ const App = () => {
         }}
         startGame={startGame}
       />
-      <PongGame />
+      {showInstructions ? (
+        <Instructions
+          clickHandler={closeInstructions}
+          showInstructions={showInstructions}
+        />
+      ) : (
+        <PongGame />
+      )}
     </div>
   );
 };
