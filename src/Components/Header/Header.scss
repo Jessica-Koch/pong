@@ -1,12 +1,24 @@
 .Header {
   width: 100%;
-  justify-content: center;
-  flex-direction: column;
-  padding-top: 20px;
-  color: white;
-  height: 150px;
+  justify-content: space-between;
   display: flex;
   position: absolute;
   align-items: center;
+  padding-top: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 20px;
+
+  .titleBlock {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .Score {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 1.6;
+    text-align: center;
+  }
 }

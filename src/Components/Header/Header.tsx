@@ -1,5 +1,6 @@
 import { Score } from '../../assets/types';
 import { Button } from '../Button/Button';
+import './Header.scss';
 
 type HeaderProps = {
   gameStarted: boolean;
@@ -16,7 +17,10 @@ export const Header = ({
 }: HeaderProps) => {
   return (
     <div className='Header'>
-      <span className='Score'>Player 1 Score: {score.player}</span>
+      <div className='Score'>
+        <div>Player 1 Score:</div>
+        <div>{score.player}</div>
+      </div>
       <div className='titleBlock'>
         <h1>Welcome to Pong</h1>
         {gameStarted ? (
@@ -25,7 +29,10 @@ export const Header = ({
           <Button label='Start Game' onClick={startGame} />
         )}
       </div>
-      <span className='Score'>Player 2 score: {score.opponent}</span>
+      <div className='Score'>
+        <div>Player 2 Score</div>
+        <div>{score.opponent}</div>
+      </div>
     </div>
   );
 };
